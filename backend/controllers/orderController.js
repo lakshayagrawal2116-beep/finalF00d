@@ -5,7 +5,7 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DELIVERY_FEE = 50;
-const FRONTEND_URL = "http://localhost:5174"; // use env later
+const FRONTEND_URL = "https://taste-runners1.onrender.com"; // use env later
 
 const placeOrder = async (req, res) => {
     try {
