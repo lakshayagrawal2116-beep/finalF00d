@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import './AddCoupon.css'
 import CouponList from "./CouponList";
-const AddCoupon = () => {
+const AddCoupon = ({url}) => {
   const [coupon, setCoupon] = useState({
     code: "",
     discountType: "flat",
@@ -20,7 +20,7 @@ const AddCoupon = () => {
   const createCoupon = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/coupon/create",
+        `${url}/api/coupon/create`,
         coupon
       );
 

@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import './CouponList.css'
 const CouponList = () => {
+
+  const url = import.meta.env.VITE_BASE_URL
   const [coupons, setCoupons] = useState([]);
 
   const fetchCoupons = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/coupon/list"
+        `${url}/api/coupon/list`
       );
       if (res.data.success) {
         setCoupons(res.data.data);

@@ -207,3 +207,4 @@ npm run dev
 * Secure admin dashboard
 * Scalable backend architecture
 
+![alt text](image.png)
