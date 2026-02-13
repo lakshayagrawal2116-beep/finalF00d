@@ -1,12 +1,3 @@
-Great point 👍 — you’re absolutely right.
-A **good README should explain BOTH sides**:
-
-1️⃣ **Main Food Delivery Website (User-facing portal)**
-2️⃣ **Admin Dashboard (Management side)**
-
-Below is a **balanced, professional README.md** that clearly explains **your food delivery portal first**, then the **admin system**. This is **ideal for recruiters, evaluators, and GitHub visitors**.
-
----
 
 # 🍔 Food Delivery Platform – Full Stack Application
 
@@ -216,33 +207,3 @@ npm run dev
 * Secure admin dashboard
 * Scalable backend architecture
 
----
-
-## 📜 License
-
-MIT License
-
----
-
-## 👨‍💻 Author
-
-**Your Name**
-📧 Email: [your-email@example.com](mailto:your-email@example.com)
-🔗 GitHub / LinkedIn
-
----
-
-### 🔥 Resume One-Liner
-
-> *Developed a full-stack food delivery platform with AI-powered recommendations, Stripe payments, real-time order tracking, and a secure admin dashboard.*
-
----
-
-If you want next, I can:
-
-* Make a **short README version**
-* Write **resume bullet points**
-* Add **architecture diagram**
-* Create **API documentation**
-
-Just tell me 👍
