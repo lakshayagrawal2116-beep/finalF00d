@@ -7,7 +7,7 @@ const StoreContextProvider =(props)=>{
     const [search, setSearch] = useState("");
 
 
-    const url="http://localhost:4000"
+    const url = import.meta.env.VITE_BASE_URL
     const [token,SetToken]= useState("");
     const [food_list,SetFoodList] =useState([]);
 

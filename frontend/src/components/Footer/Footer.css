@@ -16,6 +16,17 @@
     gap: 80px;
 
 }
+
+.footer-logo {
+    width: 100px;
+    height: 100px;
+    /* ✅ FIX */
+    object-fit: contain;
+    /* ✅ PREVENT SQUEEZE */
+    background-color: grey;
+    border-radius: 50%;
+    border: 2px solid tomato;
+}
 .footer-content-left ,.footer-content-right ,.footer-content-center{
     display: flex;
     flex-direction: column;
