@@ -12,3 +12,18 @@
 .navbar .profile{
     width: 40px;
 }
+.navbar .right{
+    display: flex;
+    gap: 15px;
+    
+}
+.btn{
+    margin-right: 10px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #ff4d4d;
+    color: white;
+    cursor: pointer;
+}

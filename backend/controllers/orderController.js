@@ -32,7 +32,7 @@ const placeOrder = async (req, res) => {
             items: req.body.items,
             amount: finalAmount,
             address: req.body.address,
-            paymentStatus: "pending"
+            payment:false
         });
 
         await newOrder.save();

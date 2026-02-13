@@ -1,0 +1,48 @@
+.admin-dashboard {
+    padding: 24px;
+    width: 100%;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.stat-card {
+    background: white;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-filter {
+    margin: 20px 0;
+}
+
+.dashboard-filter button {
+    margin-right: 10px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.dashboard-filter .active {
+    background: #ff4d4d;
+    color: white;
+}
+
+.chart-wrapper {
+    height: 320px;
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.empty-chart {
+    text-align: center;
+    margin-top: 120px;
+    color: #777;
+}

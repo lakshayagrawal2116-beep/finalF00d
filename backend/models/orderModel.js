@@ -7,12 +7,12 @@ const orderSchema =new mongoose.Schema({
     amount:{type:Number,required:true},
     address:{type:Object,required:true},
     status:{type:String,default:"Food Processing"},
-    data:{type:Date,default:Date.now()},
+    // data:{type:Date,default:Date.now()},
     payment:{type:Boolean,default:false},
     couponCode:{type:String},
     discountAmount:{type:Number,default:0}
     
-})
+},{timestamps:true})
 const orderModel=mongoose.models.order || mongoose.model("order",orderSchema);
 
 export default orderModel;

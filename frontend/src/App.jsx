@@ -8,6 +8,8 @@ import Footer from './components/Footer/Footer'
 import LoginPopUp from './components/LoginPopUp/LoginPopUp'
 import Verify from './pages/Verify/Verify'
 import MyOrders from './pages/MyOrders/MyOrders'
+import FoodRecommender from './components/FoodRecommender/FoodRecommender'
+import ScrollToHash from './components/ScrollToHash'
 
 const App = () => {
 
@@ -15,6 +17,7 @@ const App = () => {
 
   return (
     <>
+    <ScrollToHash />
     {showLogin?<LoginPopUp SetShowLogin={SetShowLogin}/>:<></>}
     <div className='app'>
       <Navbar SetShowLogin={SetShowLogin}/>
@@ -24,6 +27,8 @@ const App = () => {
         <Route path='/order' element={<PlaceOrder/>} />
         <Route path="/verify" element={<Verify/>}/>
         <Route path="/myorders" element={<MyOrders/>}/>
+        <Route path="/recommend" element={<FoodRecommender SetShowLogin={SetShowLogin}/>}/>
+
 
 
       </Routes>

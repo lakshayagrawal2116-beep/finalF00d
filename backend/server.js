@@ -7,9 +7,9 @@ import 'dotenv/config';
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 import couponRoute from "./routes/couponRoute.js";
+import foodRoutes from "./routes/recommendRoute.js"
+import adminRoute from "./routes/adminRoute.js"
 
-
- 
 
 
 //app config
@@ -35,6 +35,9 @@ app.use("/api/user",userRouter);
 app.use("/api/cart",cartRouter);
 app.use("/api/order",orderRouter);
 app.use("/api", couponRoute);
+app.use("/api/food", foodRoutes);
+app.use("/api/admin",adminRoute)
+
 
 
 
