@@ -9,6 +9,7 @@ import orderRouter from "./routes/orderRoute.js";
 import couponRoute from "./routes/couponRoute.js";
 import foodRoutes from "./routes/recommendRoute.js"
 import adminRoute from "./routes/adminRoute.js"
+import path from "path";
 
 
 
@@ -36,7 +37,18 @@ app.use("/api/cart",cartRouter);
 app.use("/api/order",orderRouter);
 app.use("/api", couponRoute);
 app.use("/api/food", foodRoutes);
-app.use("/api/admin",adminRoute)
+app.use("/api/admin",adminRoute);
+
+const __dirname = path.resolve();
+
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, "frontend/dist")));
+
+// SPA fallback for React Router
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
+})
+
 
 
 
