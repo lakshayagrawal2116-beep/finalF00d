@@ -39,15 +39,15 @@ app.use("/api", couponRoute);
 app.use("/api/food", foodRoutes);
 app.use("/api/admin",adminRoute);
 
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, "frontend/dist")));
+// // Serve frontend static files
+// app.use(express.static(path.join(__dirname, "frontend/dist")));
 
-// SPA fallback for React Router
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
-})
+// // SPA fallback for React Router
+// app.use((req, res) => {
+//   res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
+// })
 
 
 
