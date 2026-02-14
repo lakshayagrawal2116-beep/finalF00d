@@ -2,10 +2,15 @@ import React, { useContext } from 'react'
 import './FoodDisplay.css'
 import { StoreContext } from '../../context/StoreContext'
 import FoodItem from '../FoodItem/FoodItem'
+import Loader from '../Loader/Loader'
 
 const FoodDisplay = ({ category, mode }) => {
 
-  const { food_list, search } = useContext(StoreContext);
+  const { food_list, search ,loading} = useContext(StoreContext);
+  if (loading) {
+  return <p style={{ textAlign: "center" }}>Loading...</p>
+}
+
 
   const filteredFood = food_list.filter(item => {
     const categoryMatch =
@@ -35,6 +40,9 @@ const FoodDisplay = ({ category, mode }) => {
             image={item.image}
           />
         ))}
+
+        
+
 
         {filteredFood.length === 0 && (
           <p className="no-result">No food found</p>

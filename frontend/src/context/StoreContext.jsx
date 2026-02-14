@@ -10,6 +10,7 @@ const StoreContextProvider =(props)=>{
     const url = import.meta.env.VITE_BASE_URL
     const [token,SetToken]= useState("");
     const [food_list,SetFoodList] =useState([]);
+    const[loading,setLoading]=useState(true);
 
     const addToCart=async(itemId)=>{
         if(!cartItems[itemId]){
@@ -52,10 +53,17 @@ const StoreContextProvider =(props)=>{
 };
 
 
-    const fetchFoodList =async()=>{
-        const response=await axios.get(url+"/api/food/list")
-        SetFoodList(response.data.data);
-    }
+    const fetchFoodList = async () => {
+  try {
+    const response = await axios.get(url + "/api/food/list");
+    SetFoodList(response.data.data || []);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     const loadCartData=async(token)=>{
         const response =await axios.post(url+"/api/cart/get",{},{headers:{token}})
@@ -79,6 +87,7 @@ const StoreContextProvider =(props)=>{
     const contextValue={
         food_list,
         cartItems,
+        loading,
         SetCartItems,
         addToCart,
         removeFromCart,
