@@ -8,7 +8,7 @@ const FoodDisplay = ({ category, mode }) => {
 
   const { food_list, search ,loading} = useContext(StoreContext);
   if (loading) {
-  return <p style={{ textAlign: "center" }}>Loading...</p>
+  return <p style={{ textAlign: "center" }}>Loading Menu Please Wait...</p>
 }
 
 
