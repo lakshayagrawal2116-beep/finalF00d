@@ -95,13 +95,13 @@ const Cart = () => {
                 <button onClick={()=>navigate('/order')}>Proceed to Checkout</button>
             </div>
             <div className='cart-promocode'>
-                <div>
+                {/* <div>
                     <p>If you have a promo code ,Enter it here</p>
                     <div className='cart-promocode-input'>
                         <input type='text' placeholder='promo code' value={coupon} onChange={(e) => setCoupon(e.target.value.toUpperCase())} />
                         <button onClick={applyCoupon} >Submit</button>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
 

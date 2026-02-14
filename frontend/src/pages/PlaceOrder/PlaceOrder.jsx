@@ -4,6 +4,7 @@ import { StoreContext } from '../../context/StoreContext'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 const PlaceOrder = () => {
 
   const [couponCode, setCouponCode] = useState("");
@@ -72,11 +73,17 @@ const PlaceOrder = () => {
     const navigate=useNavigate();
      useEffect(()=>{
       if(!token){
+        toast.error("Please Login first to Proceed")
         navigate('/cart')
+        
 
       }
-      else if(getTotalCartAmount==0){
+      else if(getTotalCartAmount()==0){
+
+        toast.error("Please add some food items first")
+        
         navigate('/cart')
+
 
       }
      },[token])

@@ -7,6 +7,10 @@
   font-family: outfit;
   scroll-behavior: smooth;
 }
+
+.Toastify__toast-container {
+  z-index: 30000 !important;
+}
 body{
   min-height: 100vh;
 }

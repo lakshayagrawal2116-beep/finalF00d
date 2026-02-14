@@ -3,11 +3,14 @@ import "./Navbar.css"
 import { assets } from '../../assets/assets'
 import { Link, useNavigate } from 'react-router-dom'
 import { StoreContext } from '../../context/StoreContext'
+import { toast } from 'react-toastify'
 
 const Navbar = ({ SetShowLogin }) => {
 
   const [menu, setMenu] = useState("home")
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
+
 
   const { getTotalCartAmount, token, SetToken, search, setSearch } = useContext(StoreContext)
   const navigate = useNavigate()
@@ -15,8 +18,10 @@ const Navbar = ({ SetShowLogin }) => {
   const logout = () => {
     localStorage.removeItem("token")
     SetToken("")
+    setProfileOpen(false) 
     navigate("/")
     setMobileOpen(false)
+    toast.success("Logout Successfully")
   }
 
   return (
@@ -55,18 +60,35 @@ const Navbar = ({ SetShowLogin }) => {
             <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
           </div>
 
-          {!token ? (
-            <button onClick={() => SetShowLogin(true)}>sign in</button>
-          ) : (
-            <div className='navbar-profile'>
-              <img src={assets.profile_icon} alt="profile" />
-              <ul className='nav-profile-dropdown'>
-                <li onClick={() => navigate('/myorders')}>Orders</li>
-                <hr />
-                <li onClick={logout}>Logout</li>
-              </ul>
-            </div>
-          )}
+            {!token ? (
+  <button onClick={() => SetShowLogin(true)}>sign in</button>
+) : (
+  <div className="navbar-profile">
+    <img
+      src={assets.profile_icon}
+      alt="profile"
+      onClick={() => setProfileOpen(prev => !prev)}
+      style={{ cursor: "pointer" }}
+    />
+
+    {profileOpen && (
+      <ul className="nav-profile-dropdown">
+        <li
+          onClick={() => {
+            navigate('/myorders')
+            setProfileOpen(false)
+          }}
+        >
+          Orders
+        </li>
+        <hr />
+        <li onClick={logout}>Logout</li>
+      </ul>
+    )}
+  </div>
+)}
+
+
 
           {/* Hamburger */}
           <div className="hamburger" onClick={() => setMobileOpen(!mobileOpen)}>

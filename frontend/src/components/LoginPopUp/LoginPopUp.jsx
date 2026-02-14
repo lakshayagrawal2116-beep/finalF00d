@@ -3,6 +3,7 @@ import './LoginPopUp.css'
 import { assets } from '../../assets/assets'
 import { StoreContext } from '../../context/StoreContext'
 import axios from "axios"
+import { toast } from 'react-toastify'
 const LoginPopUp = ({SetShowLogin}) => {
 
     const {url,SetToken} =useContext(StoreContext)
@@ -37,10 +38,12 @@ const LoginPopUp = ({SetShowLogin}) => {
             SetToken(response.data.token);
             localStorage.setItem("token",response.data.token)
             SetShowLogin(false)
+            toast.success("Logged in Successfully")
 
         }
         else{
-            alert(response.data.message)
+            toast.error(response.data.message)
+
         }
 
 
@@ -79,6 +82,7 @@ const LoginPopUp = ({SetShowLogin}) => {
             :<p>Already have an account? <span onClick={()=>SetCurrState("Login")}>Login Here</span></p>
             }
         </form>
+        
     </div>
   )
 }

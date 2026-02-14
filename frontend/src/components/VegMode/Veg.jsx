@@ -1,7 +1,7 @@
 import React from 'react'
 import './Veg.css'
 import { ToastContainer, toast } from 'react-toastify'
-
+import 'react-toastify/dist/ReactToastify.css'
 const Veg = ({ mode, SetMode }) => {
 
   const handleToggle = () => {
@@ -27,7 +27,9 @@ const Veg = ({ mode, SetMode }) => {
         VEG MODE {mode ? "ON 🌱" : "OFF"}
       </button>
 
-      <ToastContainer />
+      {/* <ToastContainer
+          // 🔥 IMPORTANT
+      /> */}
     </div>
   )
 }

@@ -10,7 +10,8 @@ import Verify from './pages/Verify/Verify'
 import MyOrders from './pages/MyOrders/MyOrders'
 import FoodRecommender from './components/FoodRecommender/FoodRecommender'
 import ScrollToHash from './components/ScrollToHash'
-
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 const App = () => {
 
   const[showLogin,SetShowLogin]=useState(false);
@@ -18,6 +19,17 @@ const App = () => {
   return (
     <>
     <ScrollToHash />
+    <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+        style={{ zIndex: 20000 }}   // 🔥 IMPORTANT
+      />
     {showLogin?<LoginPopUp SetShowLogin={SetShowLogin}/>:<></>}
     <div className='app'>
       <Navbar SetShowLogin={SetShowLogin}/>
