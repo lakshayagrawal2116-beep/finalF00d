@@ -46,3 +46,79 @@
     margin-top: 120px;
     color: #777;
 }
+
+/* 🤖 AI INSIGHTS */
+
+.ai-insight-card {
+    margin-top: 24px;
+    padding: 16px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.ai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-generate-btn {
+    padding: 6px 12px;
+    background: #ff4d4d;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+
+.ai-generate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.ai-summary {
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.ai-recommendations {
+    margin-top: 8px;
+    padding-left: 16px;
+}
+
+.ai-empty {
+    color: #777;
+    margin-top: 10px;
+}
+
+/* 🤖 FOLLOW-UP */
+
+.ai-followup-card {
+    margin-top: 20px;
+    padding: 16px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.ai-followup-card textarea {
+    width: 100%;
+    min-height: 70px;
+    margin: 10px 0;
+    padding: 8px;
+}
+
+.ai-followup-card button {
+    background: #ff4d4d;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.ai-followup-answer {
+    margin-top: 12px;
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 6px;
+}

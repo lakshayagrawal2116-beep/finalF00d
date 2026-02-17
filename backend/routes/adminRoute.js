@@ -33,6 +33,7 @@ router.post("/login", async (req, res) => {
 })
 
 // 🔒 ADMIN DASHBOARD
-router.get("/dashboard", adminAuth, getDashboardStats)
+router.get("/dashboard", adminAuth, getDashboardStats);
+
 
 export default router

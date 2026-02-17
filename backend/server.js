@@ -11,8 +11,7 @@ import foodRoutes from "./routes/recommendRoute.js"
 import adminRoute from "./routes/adminRoute.js"
 import path from "path";
 
-
-
+import adminRoutes from "./aiServer/routes/adminRoutes.js"
 //app config
 const app=express();
 const PORT=process.env.PORT || 4000;
@@ -38,7 +37,7 @@ app.use("/api/order",orderRouter);
 app.use("/api", couponRoute);
 app.use("/api/food", foodRoutes);
 app.use("/api/admin",adminRoute);
-
+app.use("/api/admin2", adminRoutes);
 // const __dirname = path.resolve();
 
 // // Serve frontend static files
