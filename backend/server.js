@@ -42,6 +42,9 @@ app.use("/api", couponRoute);
 app.use("/api/food", foodRoutes);
 app.use("/api/admin",adminRoute);
 app.use("/api/admin2", adminRoutes);
+app.get("/ping",(req,res)=>{
+    res.status(200).sendFile("pong");
+})
 // const __dirname = path.resolve();
 
 // // Serve frontend static files

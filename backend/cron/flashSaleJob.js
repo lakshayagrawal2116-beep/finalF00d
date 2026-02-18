@@ -2,7 +2,7 @@ import cron from "node-cron";
 import foodModel from "../models/foodModel.js";
 
 // 8:00 PM daily
-cron.schedule("* * * * *", async () => {
+cron.schedule("0 20 * * *", async () => {
   console.log("🔥 CRON TRIGGERED AT", new Date().toLocaleTimeString());
 
   await foodModel.updateMany(

@@ -110,7 +110,15 @@ const StoreContextProvider =(props)=>{
         }
 
         }
+
         loadData();
+        const interval = setInterval(() => {
+    fetch(`${url}/ping`)
+      .then(() => console.log("🔁 Backend pinged"))
+      .catch(() => {});
+  }, 5 * 60 * 1000); // every 5 minutes
+
+  return () => clearInterval(interval);
     },[])
 
 
