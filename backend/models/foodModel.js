@@ -6,7 +6,20 @@ const foodSchema =new mongoose.Schema({
     price:{type:Number,required:true},
     image:{type:String,required:true},
     category:{type:String,required:true},
-    mode:{type:String}
+    mode:{type:String},
+    flashSale: {
+  type: Boolean,
+  default: false
+},
+discountPercentage: {
+  type: Number,
+  default: 0
+},
+dailySalesCount: {
+  type: Number,
+  default: 0
+}
+
     
 
 })

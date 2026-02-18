@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import Cart from './pages/cart/Cart'
@@ -11,10 +11,29 @@ import MyOrders from './pages/MyOrders/MyOrders'
 import FoodRecommender from './components/FoodRecommender/FoodRecommender'
 import ScrollToHash from './components/ScrollToHash'
 import { ToastContainer } from 'react-toastify'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 const App = () => {
 
   const[showLogin,SetShowLogin]=useState(false);
+  const navigate = useNavigate();
+
+useEffect(() => {
+  const handleSessionExpired = () => {
+    localStorage.removeItem("token");
+    toast.error("Session expired. Please login again.");
+    SetShowLogin(true);   // 🔥 OPEN POPUP
+    navigate("/");        // 🔥 GO TO HOME
+  };
+
+  window.addEventListener("session-expired", handleSessionExpired);
+
+  return () => {
+    window.removeEventListener("session-expired", handleSessionExpired);
+  };
+}, []);
+
 
   return (
     <>

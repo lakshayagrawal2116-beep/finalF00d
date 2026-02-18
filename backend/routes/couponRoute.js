@@ -23,6 +23,28 @@ router.get("/coupon/list", async (req, res) => {
   }
 });
 
+// USER: list active & valid coupons
+// USER: list active & valid coupons
+router.get("/coupon/active", async (req, res) => {
+  try {
+    const coupons = await Coupon.find({
+      active: true,
+      expiryDate: { $gte: new Date() }
+    }).select(
+      "code discountType discountValue minOrderAmount expiryDate"
+    );
+
+    res.json({ success: true, data: coupons });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching coupons"
+    });
+  }
+});
+
+
+
 router.post("/coupon/apply", authMiddleware, async (req, res) => {
   const { code, cartTotal } = req.body;
   const userId = req.user.id;

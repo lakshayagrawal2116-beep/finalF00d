@@ -3,8 +3,10 @@ import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext'
 import { useState } from 'react'
 import axios from 'axios'
+
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import api from '../../api/axios'
 const PlaceOrder = () => {
 
   const [couponCode, setCouponCode] = useState("");
@@ -51,11 +53,12 @@ const PlaceOrder = () => {
     couponCode,
     discountAmount:discount,
     amount: getTotalCartAmount() + deliveryFee-discount
+    
   };
 
   try {
-    const response = await axios.post(
-      url + "/api/order/place",
+    const response = await api.post(
+      "/order/place",
       orderData,
       { headers: { token } }
     );
@@ -92,8 +95,8 @@ const PlaceOrder = () => {
 
      const applyCoupon = async () => {
   try {
-    const res = await axios.post(
-      url + "/api/coupon/apply",
+    const res = await api.post(
+      "/coupon/apply",
       {
         code: couponCode,
         cartTotal: getTotalCartAmount()

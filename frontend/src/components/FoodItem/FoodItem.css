@@ -67,3 +67,26 @@
     width: 30px;
 
 }
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #e63946;
+    color: white;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: gray;
+    margin-right: 8px;
+}
+
+.new-price {
+    color: #e63946;
+    font-weight: bold;
+    font-size: 18px;
+}

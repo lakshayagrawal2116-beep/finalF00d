@@ -4,12 +4,15 @@ import './AddCoupon.css'
 import CouponList from "./CouponList";
 const AddCoupon = ({url}) => {
   const [coupon, setCoupon] = useState({
-    code: "",
-    discountType: "flat",
-    discountValue: "",
-    minOrderAmount: "",
-    expiryDate: ""
-  });
+  code: "",
+  discountType: "flat",
+  discountValue: "",
+  minOrderAmount: "",
+  expiryDate: "",
+  usageLimit: 100,
+  active: true
+});
+
 
   const onChange = (e) => {
     setCoupon({ ...coupon, [e.target.name]: e.target.value });

@@ -32,6 +32,11 @@ const couponSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  couponUsed: {
+  type: Boolean,
+  default: false
+},
+
   active: {
     type: Boolean,
     default: true

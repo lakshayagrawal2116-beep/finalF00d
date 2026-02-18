@@ -38,6 +38,8 @@ const FoodDisplay = ({ category, mode }) => {
             description={item.description}
             price={item.price}
             image={item.image}
+            flashSale={item.flashSale}                    // 🔥 ADD
+    discountPercentage={item.discountPercentage}
           />
         ))}
 

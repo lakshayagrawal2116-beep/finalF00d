@@ -7,6 +7,7 @@ const userSchema =new mongoose.Schema({
     password:{type:String,required:true},
     role: { type: String, enum: ["user", "admin"], default: "user" }, // ✅ ADD THIS
     cartData:{type:Object,default:{}},
+    activeToken:String,
     usedCoupons:{type:[String],default:[]}
 },{minimize:false})
 

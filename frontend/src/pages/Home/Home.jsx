@@ -5,10 +5,15 @@ import ExploreMenu from '../../components/ExploreMenu/ExploreMenu';
 import FoodDisplay from '../../components/FoodDisplay/FoodDisplay';
 import AppDownload from '../../components/AppDownload/AppDownload';
 import Veg from '../../components/VegMode/Veg';
+import { useContext } from 'react';
+import { StoreContext } from '../../context/StoreContext';
 const Home = () => {
 
     const [category,SetCategory] =useState("All")
     const [mode,SetMode]=useState(false);
+    const { flashSaleItems } = useContext(StoreContext);
+console.log("FLASH SALE ITEMS:", flashSaleItems);
+
 
 
 

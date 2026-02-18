@@ -1,6 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 export const StoreContext= createContext(null)
 import axios from "axios";
+import api from "../api/axios";
+
+
 const StoreContextProvider =(props)=>{
 
     const[cartItems,SetCartItems]=useState({});
@@ -11,6 +14,22 @@ const StoreContextProvider =(props)=>{
     const [token,SetToken]= useState("");
     const [food_list,SetFoodList] =useState([]);
     const[loading,setLoading]=useState(true);
+    const [flashSaleItems, setFlashSaleItems] = useState([]);
+
+
+    useEffect(() => {
+  const handleSessionExpired = () => {
+    SetToken("");        // 🔥 THIS FIXES NAVBAR
+    SetCartItems({});
+  };
+
+  window.addEventListener("session-expired", handleSessionExpired);
+
+  return () => {
+    window.removeEventListener("session-expired", handleSessionExpired);
+  };
+}, []);
+
 
     const addToCart=async(itemId)=>{
         if(!cartItems[itemId]){
@@ -21,14 +40,14 @@ const StoreContextProvider =(props)=>{
         }
 
         if(token){
-            await axios.post(url+"/api/cart/add",{itemId},{headers:{token}})
+            await api.post(url+"/cart/add",{itemId},{headers:{token}})
         }
     }
     const removeFromCart=async(itemId)=>{
 
         SetCartItems((prev)=>({...prev,[itemId]:prev[itemId]-1}));
         if(token){
-            await axios.post(url+"/api/cart/remove",{itemId},{headers:{token}})
+            await api.post("/cart/remove",{itemId},{headers:{token}})
         }
 
     }
@@ -55,7 +74,7 @@ const StoreContextProvider =(props)=>{
 
     const fetchFoodList = async () => {
   try {
-    const response = await axios.get(url + "/api/food/list");
+    const response = await api.get("/food/list");
     SetFoodList(response.data.data || []);
   } catch (err) {
     console.error(err);
@@ -64,9 +83,19 @@ const StoreContextProvider =(props)=>{
   }
 };
 
+     /* 🔥 FETCH FLASH SALE ITEMS */
+  const fetchFlashSaleItems = async () => {
+    try {
+      const res = await api.get("/food/flash-sale");
+      setFlashSaleItems(res.data.data || []);
+    } catch (err) {
+      console.error("Error fetching flash sale items", err);
+    }
+  };
+
 
     const loadCartData=async(token)=>{
-        const response =await axios.post(url+"/api/cart/get",{},{headers:{token}})
+        const response =await api.post("/cart/get",{},{headers:{token}})
         SetCartItems(response.data.cartData);
     }
 
@@ -74,6 +103,7 @@ const StoreContextProvider =(props)=>{
         
         async function loadData(){
             await fetchFoodList();
+            await fetchFlashSaleItems();
             if(localStorage.getItem("token")){
             SetToken(localStorage.getItem("token"));
             await loadCartData(localStorage.getItem("token"));
@@ -86,6 +116,7 @@ const StoreContextProvider =(props)=>{
 
     const contextValue={
         food_list,
+        flashSaleItems,
         cartItems,
         loading,
         SetCartItems,

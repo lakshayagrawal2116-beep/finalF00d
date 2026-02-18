@@ -4,7 +4,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useContext } from 'react';
 import { StoreContext } from '../../context/StoreContext';
 import { useEffect } from 'react';
+
 import axios from 'axios';
+import api from '../../api/axios';
 const Verify = () => {
     const [searchParams,SetSearchParams]=useSearchParams();
     const success=searchParams.get("success");
@@ -12,7 +14,12 @@ const Verify = () => {
     const {url}=useContext(StoreContext);
     const navigate=useNavigate();
     const verifyPayment =async()=>{
-        const response=await axios.post(url+"/api/order/verify",{success,orderId})
+        if (!orderId || !success) {
+        navigate("/");
+        return;
+        }
+
+        const response=await api.post("/order/verify",{success,orderId})
         if(response.data.success){
             navigate("/myorders")
 
@@ -21,6 +28,8 @@ const Verify = () => {
             navigate("/")
         }
     }
+    
+
     useEffect(()=>{
         verifyPayment();
 

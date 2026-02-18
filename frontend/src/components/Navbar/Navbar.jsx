@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 import "./Navbar.css"
 import { assets } from '../../assets/assets'
 import { Link, useNavigate } from 'react-router-dom'
@@ -7,6 +7,8 @@ import { toast } from 'react-toastify'
 
 const Navbar = ({ SetShowLogin }) => {
 
+  
+
   const [menu, setMenu] = useState("home")
   const [mobileOpen, setMobileOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
@@ -14,6 +16,12 @@ const Navbar = ({ SetShowLogin }) => {
 
   const { getTotalCartAmount, token, SetToken, search, setSearch } = useContext(StoreContext)
   const navigate = useNavigate()
+  useEffect(() => {
+  if (!token) {
+    setProfileOpen(false);   // 🔥 close profile dropdown
+  }
+}, [token]);
+
 
   const logout = () => {
     localStorage.removeItem("token")

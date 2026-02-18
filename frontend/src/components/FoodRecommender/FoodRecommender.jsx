@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { StoreContext } from "../../context/StoreContext";
 import "./FoodRecommender.css";
+import api from "../../api/axios";
 
 const FoodRecommendation = ({ SetShowLogin }) => {
   const { url, token } = useContext(StoreContext);
@@ -34,7 +35,7 @@ const FoodRecommendation = ({ SetShowLogin }) => {
     setRecommendations([]);
 
     try {
-      const res = await axios.post(`${url}/api/food/recommend`, {
+      const res = await api.post(`/food/recommend`, {
         veg_non: vegNon,
         category,
         spicy,

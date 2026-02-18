@@ -4,9 +4,10 @@ import { assets } from '../../assets/assets'
 import { StoreContext } from '../../context/StoreContext'
 import axios from "axios"
 import { toast } from 'react-toastify'
+import api from '../../api/axios'
 const LoginPopUp = ({SetShowLogin}) => {
 
-    const {url,SetToken} =useContext(StoreContext)
+    const {SetToken} =useContext(StoreContext)
     const [currState,SetCurrState] =useState("Login")
 
     const [data,SetData]=useState({
@@ -22,34 +23,30 @@ const LoginPopUp = ({SetShowLogin}) => {
         SetData(data=>({...data,[name]:value}))
     }
 
-    const onLogin =async(event)=>{
-        event.preventDefault();
-        let newUrl=url;
-        if(currState=="Login"){
-            newUrl+="/api/user/login"
-        }
-        else{
-            newUrl+="/api/user/register"
-        }
+    const onLogin = async (event) => {
+  event.preventDefault();
 
-        const response =await axios.post(newUrl,data);
+  try {
+    const endpoint =
+      currState === "Login" ? "/user/login" : "/user/register";
 
-        if(response.data.success){
-            SetToken(response.data.token);
-            localStorage.setItem("token",response.data.token)
-            SetShowLogin(false)
-            toast.success("Logged in Successfully")
+    const response = await api.post(endpoint, data);
 
-        }
-        else{
-            toast.error(response.data.message)
-
-        }
-
-
-
-
+    if (response.data.success) {
+      SetToken(response.data.token);
+      localStorage.setItem("token", response.data.token);
+      SetShowLogin(false);
+      toast.success("Logged in Successfully");
+    } else {
+      toast.error(response.data.message);
     }
+
+  } catch (error) {
+    toast.error("Something went wrong");
+    console.error(error);
+  }
+};
+
 
    
 

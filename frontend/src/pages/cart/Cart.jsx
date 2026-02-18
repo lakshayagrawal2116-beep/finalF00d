@@ -3,7 +3,9 @@ import './Cart.css'
 import { StoreContext } from '../../context/StoreContext'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 import { useState } from 'react';
+import api from '../../api/axios';
 const Cart = () => {
     const{cartItems,food_list,removeFromCart,getTotalCartAmount,url}=useContext(StoreContext);
     const navigate=useNavigate();
@@ -13,8 +15,8 @@ const Cart = () => {
 
     const applyCoupon = async () => {
   try {
-    const res = await axios.post(
-      url + "/api/coupon/apply",
+    const res = await api.post(
+       "/coupon/apply",
       {
         code: coupon,
         cartTotal: getTotalCartAmount()

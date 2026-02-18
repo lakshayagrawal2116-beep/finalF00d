@@ -19,6 +19,9 @@ const loginUser =async(req,res)=>{
         }
 
         const token=createToken(user._id);
+        // 🔥 IMPORTANT LINE (single login)
+        user.activeToken = token;
+        await user.save();
         res.json({success:true,token});
 
     } catch(error){
@@ -74,5 +77,16 @@ const registerUser =async(req,res) =>{
     }
 
 }
+const logoutUser = async (req, res) => {
+  try {
+    req.user.activeToken = null;
+    await req.user.save();
 
-export {loginUser,registerUser}
+    res.json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    res.json({ success: false, message: "Logout failed" });
+  }
+};
+
+
+export {loginUser,registerUser,logoutUser}

@@ -10,6 +10,8 @@ import couponRoute from "./routes/couponRoute.js";
 import foodRoutes from "./routes/recommendRoute.js"
 import adminRoute from "./routes/adminRoute.js"
 import path from "path";
+import "./cron/flashSaleJob.js";
+
 
 import adminRoutes from "./aiServer/routes/adminRoutes.js"
 //app config
@@ -20,6 +22,8 @@ const PORT=process.env.PORT || 4000;
 // middleware
 app.use(express.json());
 app.use(cors());
+console.log("Server Time:", new Date().toString());
+
 
 //db connection
 connectDB();
