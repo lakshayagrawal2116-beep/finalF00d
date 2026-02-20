@@ -43,7 +43,7 @@ app.use("/api/food", foodRoutes);
 app.use("/api/admin", adminRoute);
 app.use("/api/admin2", adminRoutes);
 app.get("/ping", (req, res) => {
-    res.status(200).sendFile("pong");
+    res.status(200).send("pong");
 })
 // const __dirname = path.resolve();
 

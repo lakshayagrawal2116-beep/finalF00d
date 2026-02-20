@@ -1,17 +1,18 @@
 import cron from "node-cron";
 import foodModel from "../models/foodModel.js";
 
-// 8:00 PM daily - Start Flash Sale for items with low sales
-cron.schedule("0 20 * * *", async () => {
+const TIMEZONE = "Asia/Kolkata";
+
+const activateFlashSale = async () => {
   console.log("🔥 STARTING FLASH SALE FOR LOW SELLING ITEMS");
 
   const now = new Date();
   const saleEndsAt = new Date();
-  saleEndsAt.setHours(24, 0, 0, 0); // Midnight
+  saleEndsAt.setHours(24, 0, 0, 0); // Midnight local server time (Render UTC, but doesn't strictly matter if we just need it to end)
 
-  // Find items with less than 5 sales today
+  // Find items with less than 5 sales today and not already on flash sale
   await foodModel.updateMany(
-    { dailySalesCount: { $lt: 5 } },
+    { dailySalesCount: { $lt: 5 }, flashSale: false },
     {
       $set: {
         flashSale: true,
@@ -21,6 +22,11 @@ cron.schedule("0 20 * * *", async () => {
       }
     }
   );
+};
+
+// 8:00 PM daily - Start Flash Sale for items with low sales
+cron.schedule("0 20 * * *", activateFlashSale, {
+  timezone: TIMEZONE
 });
 
 
@@ -40,4 +46,21 @@ cron.schedule("0 0 * * *", async () => {
       }
     }
   );
+}, {
+  timezone: TIMEZONE
 });
+
+// Run this check immediately when server starts to catch up if it was offline at 8 PM
+const checkMissedFlashSale = async () => {
+  const nowStr = new Date().toLocaleString("en-US", { timeZone: TIMEZONE });
+  const nowInIST = new Date(nowStr);
+  const currentHour = nowInIST.getHours();
+
+  // If local time is between 20:00 (8 PM) and 00:00 (Midnight)
+  if (currentHour >= 20 && currentHour <= 23) {
+    console.log(`⏰ Server started during Flash Sale window (IST hour: ${currentHour}). Initializing Flash Sale...`);
+    await activateFlashSale();
+  }
+};
+
+checkMissedFlashSale();
