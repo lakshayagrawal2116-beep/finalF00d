@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import './FoodItem.css'
 import { assets } from '../../assets/assets'
 import { StoreContext } from '../../context/StoreContext';
@@ -10,14 +10,56 @@ const FoodItem = ({
   description,
   image,
   flashSale = false,
-  discountPercentage = 0
+  discountPercentage = 0,
+  flashSaleEndsAt,
+  flashSaleStartsAt
 }) => {
 
   const { cartItems, addToCart, removeFromCart, url } =
     useContext(StoreContext);
 
-  // 🔥 Calculate discounted price
-  const discountedPrice = flashSale
+  const [timeLeft, setTimeLeft] = useState(null);
+
+  const now = new Date();
+
+  // Debug Log
+  if (flashSale) {
+    console.log(`Item: ${name}`, { flashSale, start: flashSaleStartsAt, end: flashSaleEndsAt, now });
+  }
+
+  const isSaleActive =
+    flashSale &&
+    flashSaleStartsAt &&
+    flashSaleEndsAt &&
+    new Date(flashSaleStartsAt) <= now &&
+    new Date(flashSaleEndsAt).getTime() > now;
+
+  useEffect(() => {
+    if (isSaleActive) {
+      const timer = setInterval(() => {
+        const now = new Date();
+        const end = new Date(flashSaleEndsAt);
+        const distance = end - now;
+
+        if (distance < 0) {
+          clearInterval(timer);
+          setTimeLeft(null);
+        } else {
+          const hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor(
+            (distance % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+        }
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [isSaleActive, flashSaleEndsAt]);
+
+  const discountedPrice = isSaleActive
     ? Math.round(price - (price * discountPercentage) / 100)
     : price;
 
@@ -26,10 +68,15 @@ const FoodItem = ({
 
       <div className='food-item-img-container'>
 
-        {/* 🔴 FLASH SALE BADGE */}
-        {flashSale && (
+        {isSaleActive && (
           <span className="discount-badge">
             {discountPercentage}% OFF
+          </span>
+        )}
+
+        {isSaleActive && timeLeft && (
+          <span className="flash-sale-timer">
+            ⏱ {timeLeft}
           </span>
         )}
 
@@ -61,7 +108,6 @@ const FoodItem = ({
             />
           </div>
         )}
-
       </div>
 
       <div className='food-item-info'>
@@ -72,8 +118,7 @@ const FoodItem = ({
 
         <p className='food-item-desc'>{description}</p>
 
-        {/* 💰 PRICE SECTION */}
-        {flashSale ? (
+        {isSaleActive ? (
           <div className="food-item-price">
             <span className="old-price">₹ {price}</span>
             <span className="new-price">₹ {discountedPrice}</span>

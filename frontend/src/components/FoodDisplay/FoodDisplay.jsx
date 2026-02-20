@@ -6,10 +6,10 @@ import Loader from '../Loader/Loader'
 
 const FoodDisplay = ({ category, mode }) => {
 
-  const { food_list, search ,loading} = useContext(StoreContext);
+  const { food_list, search, loading } = useContext(StoreContext);
   if (loading) {
-  return <p style={{ textAlign: "center" }}>Loading Menu Please Wait...</p>
-}
+    return <p style={{ textAlign: "center" }}>Loading Menu Please Wait...</p>
+  }
 
 
   const filteredFood = food_list.filter(item => {
@@ -38,12 +38,14 @@ const FoodDisplay = ({ category, mode }) => {
             description={item.description}
             price={item.price}
             image={item.image}
-            flashSale={item.flashSale}                    // 🔥 ADD
-    discountPercentage={item.discountPercentage}
+            flashSale={item.flashSale}
+            discountPercentage={item.discountPercentage}
+            flashSaleEndsAt={item.flashSaleEndsAt}
+            flashSaleStartsAt={item.flashSaleStartsAt}
           />
         ))}
 
-        
+
 
 
         {filteredFood.length === 0 && (

@@ -1,89 +1,100 @@
 import { createContext, useEffect, useState } from "react";
-export const StoreContext= createContext(null)
+export const StoreContext = createContext(null)
 import axios from "axios";
 import api from "../api/axios";
 
 
-const StoreContextProvider =(props)=>{
+const StoreContextProvider = (props) => {
 
-    const[cartItems,SetCartItems]=useState({});
-    const [search, setSearch] = useState("");
-
-
-    const url = import.meta.env.VITE_BASE_URL
-    const [token,SetToken]= useState("");
-    const [food_list,SetFoodList] =useState([]);
-    const[loading,setLoading]=useState(true);
-    const [flashSaleItems, setFlashSaleItems] = useState([]);
+  const [cartItems, SetCartItems] = useState({});
+  const [search, setSearch] = useState("");
 
 
-    useEffect(() => {
-  const handleSessionExpired = () => {
-    SetToken("");        // 🔥 THIS FIXES NAVBAR
-    SetCartItems({});
-  };
-
-  window.addEventListener("session-expired", handleSessionExpired);
-
-  return () => {
-    window.removeEventListener("session-expired", handleSessionExpired);
-  };
-}, []);
+  const url = import.meta.env.VITE_BASE_URL
+  const [token, SetToken] = useState("");
+  const [food_list, SetFoodList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [flashSaleItems, setFlashSaleItems] = useState([]);
 
 
-    const addToCart=async(itemId)=>{
-        if(!cartItems[itemId]){
-            SetCartItems((prev)=>({...prev,[itemId]:1}))
-        }
-        else{
-            SetCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
-        }
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      SetToken("");        // 🔥 THIS FIXES NAVBAR
+      SetCartItems({});
+    };
 
-        if(token){
-            await api.post(url+"/cart/add",{itemId},{headers:{token}})
-        }
+    window.addEventListener("session-expired", handleSessionExpired);
+
+    return () => {
+      window.removeEventListener("session-expired", handleSessionExpired);
+    };
+  }, []);
+
+
+  const addToCart = async (itemId) => {
+    if (!cartItems[itemId]) {
+      SetCartItems((prev) => ({ ...prev, [itemId]: 1 }))
     }
-    const removeFromCart=async(itemId)=>{
-
-        SetCartItems((prev)=>({...prev,[itemId]:prev[itemId]-1}));
-        if(token){
-            await api.post("/cart/remove",{itemId},{headers:{token}})
-        }
-
+    else {
+      SetCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }))
     }
+
+    if (token) {
+      await api.post(url + "/cart/add", { itemId }, { headers: { token } })
+    }
+  }
+  const removeFromCart = async (itemId) => {
+
+    SetCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    if (token) {
+      await api.post("/cart/remove", { itemId }, { headers: { token } })
+    }
+
+  }
 
   const getTotalCartAmount = () => {
-  let totalAmount = 0;
+    let totalAmount = 0;
 
-  for (const item in cartItems) {
-    if (cartItems[item] > 0) {
-      const itemInfo = food_list.find(
-        (product) => product._id === item
-      );
+    for (const item in cartItems) {
+      if (cartItems[item] > 0) {
+        const itemInfo = food_list.find((product) => product._id === item);
 
-      // 🛡️ SAFETY CHECK
-      if (!itemInfo) continue;
+        // 🛡️ SAFETY CHECK
+        if (!itemInfo) continue;
 
-      totalAmount += itemInfo.price * cartItems[item];
+        // Check if item is in active flash sale
+        const now = new Date();
+        const isFlashSale =
+          itemInfo.flashSale &&
+          itemInfo.flashSaleStartsAt &&
+          itemInfo.flashSaleEndsAt &&
+          new Date(itemInfo.flashSaleStartsAt) <= now &&
+          new Date(itemInfo.flashSaleEndsAt) > now;
+
+        const price = isFlashSale
+          ? Math.round(itemInfo.price * (1 - itemInfo.discountPercentage / 100))
+          : itemInfo.price;
+
+        totalAmount += price * cartItems[item];
+      }
     }
-  }
 
-  return totalAmount;
-};
+    return totalAmount;
+  };
 
 
-    const fetchFoodList = async () => {
-  try {
-    const response = await api.get("/food/list");
-    SetFoodList(response.data.data || []);
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
+  const fetchFoodList = async () => {
+    try {
+      const response = await api.get("/food/list");
+      SetFoodList(response.data.data || []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-     /* 🔥 FETCH FLASH SALE ITEMS */
+  /* 🔥 FETCH FLASH SALE ITEMS */
   const fetchFlashSaleItems = async () => {
     try {
       const res = await api.get("/food/flash-sale");
@@ -94,56 +105,56 @@ const StoreContextProvider =(props)=>{
   };
 
 
-    const loadCartData=async(token)=>{
-        const response =await api.post("/cart/get",{},{headers:{token}})
-        SetCartItems(response.data.cartData);
-    }
+  const loadCartData = async (token) => {
+    const response = await api.post("/cart/get", {}, { headers: { token } })
+    SetCartItems(response.data.cartData);
+  }
 
-    useEffect(()=>{
-        
-        async function loadData(){
-            await fetchFoodList();
-            await fetchFlashSaleItems();
-            if(localStorage.getItem("token")){
-            SetToken(localStorage.getItem("token"));
-            await loadCartData(localStorage.getItem("token"));
-        }
+  useEffect(() => {
 
-        }
-
-        loadData();
-        const interval = setInterval(() => {
-    fetch(`${url}/ping`)
-      .then(() => console.log("🔁 Backend pinged"))
-      .catch(() => {});
-  }, 5 * 60 * 1000); // every 5 minutes
-
-  return () => clearInterval(interval);
-    },[])
-
-
-    const contextValue={
-        food_list,
-        flashSaleItems,
-        cartItems,
-        loading,
-        SetCartItems,
-        addToCart,
-        removeFromCart,
-        getTotalCartAmount,
-        url,
-        token,
-        SetToken,
-        search,
-        setSearch
+    async function loadData() {
+      await fetchFoodList();
+      await fetchFlashSaleItems();
+      if (localStorage.getItem("token")) {
+        SetToken(localStorage.getItem("token"));
+        await loadCartData(localStorage.getItem("token"));
+      }
 
     }
 
-    return(
-        <StoreContext.Provider value={contextValue}>
-            {props.children}
-        </StoreContext.Provider>
-    )
+    loadData();
+    const interval = setInterval(() => {
+      fetch(`${url}/ping`)
+        .then(() => console.log("🔁 Backend pinged"))
+        .catch(() => { });
+    }, 5 * 60 * 1000); // every 5 minutes
+
+    return () => clearInterval(interval);
+  }, [])
+
+
+  const contextValue = {
+    food_list,
+    flashSaleItems,
+    cartItems,
+    loading,
+    SetCartItems,
+    addToCart,
+    removeFromCart,
+    getTotalCartAmount,
+    url,
+    token,
+    SetToken,
+    search,
+    setSearch
+
+  }
+
+  return (
+    <StoreContext.Provider value={contextValue}>
+      {props.children}
+    </StoreContext.Provider>
+  )
 }
 
 export default StoreContextProvider;
