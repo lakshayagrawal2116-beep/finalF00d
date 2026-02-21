@@ -7,8 +7,11 @@ const activateFlashSale = async () => {
   console.log("🔥 STARTING FLASH SALE FOR LOW SELLING ITEMS");
 
   const now = new Date();
-  const saleEndsAt = new Date();
-  saleEndsAt.setHours(24, 0, 0, 0); // Midnight local server time (Render UTC, but doesn't strictly matter if we just need it to end)
+  // Calculate exact Midnight IST safely across environments
+  const istOffsetMs = 5.5 * 60 * 60 * 1000;
+  const istTime = new Date(now.getTime() + istOffsetMs);
+  istTime.setUTCHours(24, 0, 0, 0);
+  const saleEndsAt = new Date(istTime.getTime() - istOffsetMs);
 
   // Find items with less than 5 sales today and not already on flash sale
   await foodModel.updateMany(

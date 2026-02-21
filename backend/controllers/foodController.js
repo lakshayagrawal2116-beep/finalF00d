@@ -73,8 +73,12 @@ export const triggerFlashSale = async (req, res) => {
     try {
         console.log("🔥 MANUALLY TRIGGERING FLASH SALE");
         const now = new Date();
-        const saleEndsAt = new Date();
-        saleEndsAt.setHours(24, 0, 0, 0); // Midnight
+
+        // Calculate exact Midnight IST safely across environments
+        const istOffsetMs = 5.5 * 60 * 60 * 1000;
+        const istTime = new Date(now.getTime() + istOffsetMs);
+        istTime.setUTCHours(24, 0, 0, 0);
+        const saleEndsAt = new Date(istTime.getTime() - istOffsetMs);
 
         const result = await foodModel.updateMany(
             { dailySalesCount: { $lt: 5 } },
