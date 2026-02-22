@@ -12,7 +12,8 @@ const FoodItem = ({
   flashSale = false,
   discountPercentage = 0,
   flashSaleEndsAt,
-  flashSaleStartsAt
+  flashSaleStartsAt,
+  averageRating = 0
 }) => {
 
   const { cartItems, addToCart, removeFromCart, url } =
@@ -113,7 +114,14 @@ const FoodItem = ({
       <div className='food-item-info'>
         <div className='food-item-name-rating'>
           <p>{name}</p>
-          <img src={assets.rating_starts} alt='' />
+          <div className='food-item-rating' style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
+            {[1, 2, 3, 4, 5].map(star => (
+              <span key={star} style={{ color: star <= Math.round(averageRating || 0) ? '#ffc107' : '#e4e5e9', fontSize: '18px' }}>
+                ★
+              </span>
+            ))}
+            {averageRating > 0 && <span style={{ marginLeft: '4px', fontSize: '12px', color: '#666', fontWeight: 'bold' }}>{averageRating}</span>}
+          </div>
         </div>
 
         <p className='food-item-desc'>{description}</p>

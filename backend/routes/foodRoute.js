@@ -1,7 +1,9 @@
 import express from "express";
-import { addFood, listFood, removeFood, triggerFlashSale, resetFlashSale } from "../controllers/foodController.js";
+import { addFood, listFood, removeFood, triggerFlashSale, resetFlashSale, addRating } from "../controllers/foodController.js";
 import multer from "multer";
 import foodModel from "../models/foodModel.js";
+import authMiddleware from "../middleware/auth.js";
+
 const foodRouter = express.Router();
 
 //Image storage Engine
@@ -27,5 +29,6 @@ foodRouter.post("/flash-sale/trigger", triggerFlashSale);
 foodRouter.post("/flash-sale/reset", resetFlashSale);
 
 foodRouter.post("/remove", removeFood);
+foodRouter.post("/rate", authMiddleware, addRating);
 
 export default foodRouter;

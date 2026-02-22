@@ -1,4 +1,5 @@
 import foodModel from "../models/foodModel.js";
+import orderModel from "../models/orderModel.js";
 
 import fs from 'fs';
 
@@ -66,7 +67,63 @@ const removeFood = async (req, res) => {
 
 }
 
-export { addFood, listFood, removeFood };
+// Add rating for a food item
+const addRating = async (req, res) => {
+    try {
+        const { orderId, foodId, rating } = req.body;
+        const userId = req.user._id || req.user.id; // From authMiddleware
+
+        if (!rating || rating < 1 || rating > 5) {
+            return res.status(400).json({ success: false, message: "Rating must be between 1 and 5" });
+        }
+
+        // Find the specific order to persist the rating there
+        const order = await orderModel.findOne({ _id: orderId, userId, status: "Delivered" });
+        if (!order) {
+            return res.status(403).json({ success: false, message: "Valid delivered order not found." });
+        }
+
+        let itemFound = false;
+        order.items = order.items.map(item => {
+            if (String(item._id) === String(foodId)) {
+                item.rating = rating;
+                itemFound = true;
+            }
+            return item;
+        });
+
+        if (!itemFound) {
+            return res.status(404).json({ success: false, message: "Food item not found in this order." });
+        }
+
+        order.markModified('items');
+        await order.save();
+
+        const food = await foodModel.findById(foodId);
+        if (!food) {
+            return res.status(404).json({ success: false, message: "Food item not found" });
+        }
+
+        const existingRatingIndex = food.ratings.findIndex(r => String(r.userId) === String(userId));
+        if (existingRatingIndex !== -1) {
+            food.ratings[existingRatingIndex].rating = rating;
+        } else {
+            food.ratings.push({ userId, rating });
+        }
+
+        const totalRatings = food.ratings.reduce((sum, r) => sum + r.rating, 0);
+        food.averageRating = food.ratings.length > 0 ? (totalRatings / food.ratings.length).toFixed(1) : 0;
+
+        await food.save();
+        res.json({ success: true, message: "Rating submitted successfully", averageRating: food.averageRating });
+
+    } catch (error) {
+        console.error("Add Rating Error:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
+export { addFood, listFood, removeFood, addRating };
 
 // 🔥 TRIGGER FLASH SALE (For Testing/Manual Start)
 export const triggerFlashSale = async (req, res) => {

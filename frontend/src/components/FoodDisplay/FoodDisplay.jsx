@@ -42,6 +42,7 @@ const FoodDisplay = ({ category, mode }) => {
             discountPercentage={item.discountPercentage}
             flashSaleEndsAt={item.flashSaleEndsAt}
             flashSaleStartsAt={item.flashSaleStartsAt}
+            averageRating={item.averageRating}
           />
         ))}
 
