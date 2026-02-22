@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import { Route, Routes } from 'react-router-dom'
 import Cart from './pages/cart/Cart'
@@ -9,6 +9,9 @@ import LoginPopUp from './components/LoginPopUp/LoginPopUp'
 import Verify from './pages/Verify/Verify'
 import MyOrders from './pages/MyOrders/MyOrders'
 import FoodRecommender from './components/FoodRecommender/FoodRecommender'
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy'
+import AboutUs from './pages/AboutUs/AboutUs'
+import Delivery from './pages/Delivery/Delivery'
 import ScrollToHash from './components/ScrollToHash'
 import { ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom';
@@ -16,29 +19,29 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 const App = () => {
 
-  const[showLogin,SetShowLogin]=useState(false);
+  const [showLogin, SetShowLogin] = useState(false);
   const navigate = useNavigate();
 
-useEffect(() => {
-  const handleSessionExpired = () => {
-    localStorage.removeItem("token");
-    toast.error("Session expired. Please login again.");
-    SetShowLogin(true);   // 🔥 OPEN POPUP
-    navigate("/");        // 🔥 GO TO HOME
-  };
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      localStorage.removeItem("token");
+      toast.error("Session expired. Please login again.");
+      SetShowLogin(true);   // 🔥 OPEN POPUP
+      navigate("/");        // 🔥 GO TO HOME
+    };
 
-  window.addEventListener("session-expired", handleSessionExpired);
+    window.addEventListener("session-expired", handleSessionExpired);
 
-  return () => {
-    window.removeEventListener("session-expired", handleSessionExpired);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("session-expired", handleSessionExpired);
+    };
+  }, []);
 
 
   return (
     <>
-    <ScrollToHash />
-    <ToastContainer
+      <ScrollToHash />
+      <ToastContainer
         position="top-right"
         autoClose={3000}
         hideProgressBar={false}
@@ -49,22 +52,25 @@ useEffect(() => {
         theme="light"
         style={{ zIndex: 20000 }}   // 🔥 IMPORTANT
       />
-    {showLogin?<LoginPopUp SetShowLogin={SetShowLogin}/>:<></>}
-    <div className='app'>
-      <Navbar SetShowLogin={SetShowLogin}/>
-      <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/cart' element={<Cart/>} />
-        <Route path='/order' element={<PlaceOrder/>} />
-        <Route path="/verify" element={<Verify/>}/>
-        <Route path="/myorders" element={<MyOrders/>}/>
-        <Route path="/recommend" element={<FoodRecommender SetShowLogin={SetShowLogin}/>}/>
+      {showLogin ? <LoginPopUp SetShowLogin={SetShowLogin} /> : <></>}
+      <div className='app'>
+        <Navbar SetShowLogin={SetShowLogin} />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/order' element={<PlaceOrder />} />
+          <Route path="/verify" element={<Verify />} />
+          <Route path="/myorders" element={<MyOrders />} />
+          <Route path="/recommend" element={<FoodRecommender SetShowLogin={SetShowLogin} />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/delivery" element={<Delivery />} />
 
 
 
-      </Routes>
-    </div>
-    <Footer/>
+        </Routes>
+      </div>
+      <Footer />
     </>
   )
 }

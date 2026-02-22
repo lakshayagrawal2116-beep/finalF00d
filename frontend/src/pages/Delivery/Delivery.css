@@ -1,0 +1,28 @@
+.delivery-page {
+    margin-top: 50px;
+    padding: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 60vh;
+}
+
+.delivery-page h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.delivery-content h2 {
+    font-size: 24px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+.delivery-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+}
