@@ -4,6 +4,8 @@ import userModel from "../models/userModel.js";
 import Stripe from "stripe";
 import coupon from "../models/coupon.js";
 import foodModel from "../models/foodModel.js";
+import { sendEmail } from "../utils/sendEmail.js";
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DELIVERY_FEE = 50;
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
@@ -176,6 +178,28 @@ const verifyOrder = async (req, res) => {
     order.payment = true;
     await order.save();
 
+    // 📧 Send Order Confirmation Email
+    if (order.address && order.address.email) {
+      const emailHtml = `
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+          <h2 style="color: tomato;">Order Confirmed! 🎉</h2>
+          <p>Hi ${order.address.firstName},</p>
+          <p>Thank you for ordering from Taste Runners! Your order has been successfully placed and paid for.</p>
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <h3>Order Summary:</h3>
+            <p><strong>Total Paid:</strong> ₹${order.amount}</p>
+            <p><strong>Delivery Address:</strong> ${order.address.street}, ${order.address.city}</p>
+          </div>
+          <p>We'll notify you when your food is on the way!</p>
+        </div>
+      `;
+      await sendEmail({
+        to: order.address.email,
+        subject: "Your Taste Runners Order is Confirmed!",
+        html: emailHtml
+      });
+    }
+
     return res.json({
       success: true,
       message: "Payment successful",
@@ -232,7 +256,28 @@ const listOrders = async (req, res) => {
 // api for updating order status 
 const updateStatus = async (req, res) => {
   try {
-    await orderModel.findByIdAndUpdate(req.body.orderId, { status: req.body.status });
+    const order = await orderModel.findByIdAndUpdate(req.body.orderId, { status: req.body.status }, { new: true });
+
+    // 📧 Send Status Update Email
+    if (order && order.address && order.address.email) {
+      const emailHtml = `
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+          <h2 style="color: tomato;">Order Update</h2>
+          <p>Hi ${order.address.firstName},</p>
+          <p>The status of your Taste Runners order has been updated!</p>
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid tomato;">
+            <p style="font-size: 18px; font-weight: bold; margin: 0;">New Status: ${req.body.status}</p>
+          </div>
+          <p>Enjoy your food!</p>
+        </div>
+      `;
+      await sendEmail({
+        to: order.address.email,
+        subject: `Order Status Update: ${req.body.status}`,
+        html: emailHtml
+      });
+    }
+
     res.json({ success: true, message: "Status updated" })
 
   } catch (error) {
