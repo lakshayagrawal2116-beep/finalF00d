@@ -1,35 +1,99 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
-*{
+
+:root {
+  /* Core Colors */
+  --primary-color: #FF4C24;
+  /* Vibrant Tomato/Orange */
+  --primary-hover: #E03E1C;
+  --secondary-color: #2F3542;
+  --background-color: #F8F9FA;
+  --surface-color: #FFFFFF;
+
+  /* Text Colors */
+  --text-primary: #1A1D20;
+  --text-secondary: #6B7280;
+  --text-inverse: #FFFFFF;
+
+  /* UI Accents */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 20px;
+  --border-radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 8px 24px rgba(255, 76, 36, 0.25);
+}
+
+* {
   padding: 0;
-  margin:0;
+  margin: 0;
   box-sizing: border-box;
-  font-family: outfit;
+  font-family: 'Outfit', sans-serif;
   scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.app {
+  width: 80%;
+  max-width: 1440px;
+  margin: auto;
 }
 
 .Toastify__toast-container {
   z-index: 30000 !important;
 }
-body{
-  min-height: 100vh;
-}
-a{
-  text-decoration: none;
-  color: inherit;
-}
-.app{
-  width: 80%;
-  margin: auto;
-}
 
+/* Base Keyframes */
 @keyframes fadeIn {
-  0%{
+  0% {
     opacity: 0;
-
   }
-  100%{
+
+  100% {
     opacity: 1;
   }
-  
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseFade {
+  0% {
+    transform: scale(0.98);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.98);
+    opacity: 0.8;
+  }
 }
