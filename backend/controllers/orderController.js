@@ -8,7 +8,7 @@ import { sendEmail } from "../utils/sendEmail.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DELIVERY_FEE = 50;
-const FRONTEND_URL = "https://taste-runners1.onrender.com" || "http://localhost:5173";
+const FRONTEND_URL = "https://taste-runners1.onrender.com" ;
 
 const placeOrder = async (req, res) => {
   try {
