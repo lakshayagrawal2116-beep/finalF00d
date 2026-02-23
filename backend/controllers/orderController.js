@@ -8,7 +8,7 @@ import { sendEmail } from "../utils/sendEmail.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const DELIVERY_FEE = 50;
-const FRONTEND_URL = "https://taste-runners1.onrender.com" ;
+
 
 const placeOrder = async (req, res) => {
   try {
@@ -124,13 +124,16 @@ const placeOrder = async (req, res) => {
       discounts.push({ coupon: stripeCoupon.id });
     }
 
+    // 🔥 Dynamically detect exactly where the user came from (localhost or deployed frontend)
+    const activeFrontendUrl = req.headers.origin || "http://localhost:5173";
+
     // 7️⃣ Create session
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: "payment",
       discounts,
-      success_url: `${FRONTEND_URL}/verify?success=true&orderId=${newOrder._id}`,
-      cancel_url: `${FRONTEND_URL}/verify?success=false&orderId=${newOrder._id}`,
+      success_url: `${activeFrontendUrl}/verify?success=true&orderId=${newOrder._id}`,
+      cancel_url: `${activeFrontendUrl}/verify?success=false&orderId=${newOrder._id}`,
     });
 
     res.json({ success: true, session_url: session.url });
