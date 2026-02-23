@@ -23,6 +23,24 @@ router.get("/coupon/list", async (req, res) => {
   }
 });
 
+// ADMIN: Toggle active status (suspend/activate)
+router.post("/coupon/toggle", async (req, res) => {
+  try {
+    const { id } = req.body;
+    const coupon = await Coupon.findById(id);
+    if (!coupon) {
+      return res.status(404).json({ success: false, message: "Coupon not found" });
+    }
+
+    coupon.active = !coupon.active;
+    await coupon.save();
+
+    res.json({ success: true, message: `Coupon ${coupon.active ? 'activated' : 'suspended'} successfully` });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error toggling coupon status" });
+  }
+});
+
 // USER: list active & valid coupons
 // USER: list active & valid coupons
 router.get("/coupon/active", async (req, res) => {

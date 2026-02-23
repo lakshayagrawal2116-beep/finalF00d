@@ -1,69 +1,158 @@
-.cart{
+.cart {
     margin-top: 100px;
-
+    padding: 0 20px;
 }
 
-.cart-items-title{
+.cart-items {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* Soft, modern shadow */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.cart-items-title {
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 0.5fr;
     align-items: center;
-    color: grey;
-    font-size: max(1vw,12px);
+    color: #6b7280;
+    /* Modern soft gray */
+    font-size: max(1vw, 13px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
-.cart-items-item{
-    margin: 10px 0px;
-    color: black;
+
+.cart-items-item {
+    margin: 15px 0px;
+    color: #374151;
+    /* Darker modern text */
+    font-weight: 500;
+    background: #f9fafb;
+    /* Slight contrast for rows */
+    padding: 10px 15px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
 }
-.cart-items-item img{
-    width: 50px;
+
+.cart-items-item:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
 }
-.cart hr{
+
+.cart-items-item img {
+    width: 60px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cart hr {
     height: 1px;
-    background-color: #e2e2e2;
+    background-color: #f3f4f6;
     border: none;
+    margin: 15px 0;
 }
-.cart-items-item .cross{
+
+.cart-items-item .cross {
     cursor: pointer;
-    color: red;
+    color: #ef4444;
+    /* Modern red */
+    font-weight: 700;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: #fee2e2;
+    transition: all 0.3s ease;
 }
-.cart-bottom{
-    margin-top: 80px;
+
+.cart-items-item .cross:hover {
+    background: #ef4444;
+    color: white;
+    transform: scale(1.1);
+}
+
+.cart-bottom {
+    margin-top: 60px;
     display: flex;
     justify-content: space-between;
-    gap: max(12vw,20px);
+    gap: max(8vw, 20px);
 }
-.cart-total{
+
+.cart-total {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
-
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
-.cart-total-details{
+
+.cart-total h2 {
+    color: #111827;
+    font-weight: 700;
+    margin-top: 0;
+}
+
+.cart-total-details {
     display: flex;
     justify-content: space-between;
-    color: #555;
+    color: #4b5563;
+    font-size: 15px;
+    font-weight: 500;
 }
-.cart-total hr{
-    margin: 10px 0px;
 
+.cart-total-details b {
+    color: #111827;
+    font-size: 18px;
 }
-.cart-total button{
+
+.cart-total hr {
+    margin: 10px 0px;
+}
+
+.cart-total button {
     border: none;
     color: white;
-    background-color: tomato;
-    width: max(15vw,200px);
-    padding: 12px 0px;
-    border-radius: 4px;
+    background: tomato;
+    width: 100%;
+    padding: 14px 0px;
+    border-radius: 12px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.3);
+    margin-top: 15px;
 }
+
+.cart-total button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 99, 71, 0.4);
+    background: #ff5733;
+}
+
+.cart-total button:active {
+    transform: translateY(0);
+}
+
 .cart-promocode {
     flex: 1;
 }
-.cart-promocode p{
+
+.cart-promocode p {
     color: #555;
 }
-.cart-promocode-input{
+
+.cart-promocode-input {
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
@@ -71,14 +160,16 @@
     background-color: #eaeaea;
     border-radius: 4px;
 }
-.cart-promocode-input input{
+
+.cart-promocode-input input {
     background: transparent;
     border: none;
     outline: none;
     padding-left: 10px;
 }
-.cart-promocode-input button{
-    width: max(10vw,150px);
+
+.cart-promocode-input button {
+    width: max(10vw, 150px);
     padding: 12px 5px;
     background-color: black;
     border: none;
@@ -86,12 +177,12 @@
     border-radius: 4px;
 }
 
-@media(max-width:750px){
-    .cart-bottom{
+@media(max-width: 750px) {
+    .cart-bottom {
         flex-direction: column-reverse;
-
     }
-    .cart-promocode{
+
+    .cart-promocode {
         justify-content: start;
     }
 }

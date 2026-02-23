@@ -5,6 +5,8 @@ import axios from 'axios';
 
 import { assets } from '../../assets/assets';
 import api from '../../api/axios';
+import { FaBoxOpen } from 'react-icons/fa';
+
 const MyOrders = () => {
     const { url, token } = useContext(StoreContext);
 
@@ -43,7 +45,7 @@ const MyOrders = () => {
                 {data.map((order, index) => {
                     return (
                         <div key={index} className='my-orders-order'>
-                            <img src={assets.parcel_icon} alt='' />
+                            <FaBoxOpen size={40} color="tomato" />
                             <p>{order.items.map((item, index) => {
                                 if (index === order.items.length - 1) {
                                     return item.name + " x " + item.quantity

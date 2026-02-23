@@ -73,14 +73,30 @@ const placeOrder = async (req, res) => {
     await newOrder.save();
 
     // 5️⃣ Stripe line items
-    const line_items = req.body.items.map((item) => ({
-      price_data: {
-        currency: "inr",
-        product_data: { name: item.name },
-        unit_amount: item.price * 100,
-      },
-      quantity: item.quantity,
-    }));
+    const line_items = req.body.items.map((item) => {
+      // Determine if flash sale is active constraints
+      const now = new Date();
+      const isFlashSale =
+        item.flashSale &&
+        item.flashSaleStartsAt &&
+        item.flashSaleEndsAt &&
+        new Date(item.flashSaleStartsAt) <= now &&
+        new Date(item.flashSaleEndsAt) > now;
+
+      // Calculate unit amount
+      const unitPrice = isFlashSale
+        ? Math.round(item.price * (1 - item.discountPercentage / 100))
+        : item.price;
+
+      return {
+        price_data: {
+          currency: "inr",
+          product_data: { name: item.name },
+          unit_amount: unitPrice * 100,
+        },
+        quantity: item.quantity,
+      };
+    });
 
     line_items.push({
       price_data: {
@@ -183,8 +199,10 @@ const userOrders = async (req, res) => {
   try {
     console.log("USER IN CONTROLLER:", req.user);
 
+    // Only return paid orders
     const orders = await orderModel.find({
-      userId: req.user.id
+      userId: req.user.id,
+      payment: true
     });
 
     res.json({ success: true, data: orders });
@@ -199,7 +217,8 @@ const userOrders = async (req, res) => {
 
 const listOrders = async (req, res) => {
   try {
-    const orders = await orderModel.find({})
+    // Only list paid orders
+    const orders = await orderModel.find({ payment: true })
     res.json({ success: true, data: orders })
 
   } catch (error) {

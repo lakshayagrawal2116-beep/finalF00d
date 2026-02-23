@@ -1,5 +1,11 @@
 .my-orders {
     margin: 50px 0px;
+    padding: 0 20px;
+}
+
+.my-orders h2 {
+    color: #111827;
+    font-weight: 700;
 }
 
 .my-orders .container {
@@ -15,41 +21,81 @@
     align-items: center;
     gap: 30px;
     font-size: 14px;
-    padding: 10px 20px;
-    color: #454545;
-    border: 1px solid tomato;
+    padding: 20px 25px;
+    color: #374151;
+    /* Darker modern text */
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* Soft shadow */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.my-orders-order:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    /* Lift effect on hover */
 }
 
 .my-orders-order img {
     width: 50px;
 }
 
+.my-orders-order p {
+    margin: 0;
+    font-weight: 500;
+}
+
 .my-orders-order p span {
     color: tomato;
+    margin-right: 5px;
 }
 
 .my-orders-order p b {
-    font-weight: 500;
-    color: #454545;
+    font-weight: 700;
+    color: #111827;
 }
 
 .my-orders-order button {
     border: none;
     padding: 12px 0px;
-    border-radius: 4px;
-    background-color: #ffe1e1;
+    border-radius: 8px;
+    /* Slightly more rounded */
+    background-color: #fee2e2;
+    /* Soft red background */
     cursor: pointer;
-    color: #454545;
+    color: #ef4444;
+    /* Modern red text */
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.my-orders-order button:hover {
+    background-color: #ef4444;
+    /* Solid red on hover */
+    color: white;
+    /* White text on hover */
+}
+
+.order-rating-section {
+    grid-column: 1 / -1;
+    margin-top: 15px;
+    padding: 15px 20px;
+    background-color: #f9fafb;
+    /* Softer gray background */
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 @media (max-width:900px) {
     .my-orders-order {
         grid-template-columns: 1fr 2fr 1fr;
-        row-gap: 5px;
-        font-size: 12px;
+        row-gap: 15px;
+        font-size: 13px;
     }
 
     .my-orders-order button {
-        font-size: 10px;
+        font-size: 12px;
     }
 }
