@@ -1,4 +1,4 @@
-import React, { useContext, useState,useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import "./Navbar.css"
 import { assets } from '../../assets/assets'
 import { Link, useNavigate } from 'react-router-dom'
@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 
 const Navbar = ({ SetShowLogin }) => {
 
-  
+
 
   const [menu, setMenu] = useState("home")
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -17,16 +17,16 @@ const Navbar = ({ SetShowLogin }) => {
   const { getTotalCartAmount, token, SetToken, search, setSearch } = useContext(StoreContext)
   const navigate = useNavigate()
   useEffect(() => {
-  if (!token) {
-    setProfileOpen(false);   // 🔥 close profile dropdown
-  }
-}, [token]);
+    if (!token) {
+      setProfileOpen(false);   // 🔥 close profile dropdown
+    }
+  }, [token]);
 
 
   const logout = () => {
     localStorage.removeItem("token")
     SetToken("")
-    setProfileOpen(false) 
+    setProfileOpen(false)
     navigate("/")
     setMobileOpen(false)
     toast.success("Logout Successfully")
@@ -43,11 +43,11 @@ const Navbar = ({ SetShowLogin }) => {
 
         {/* Desktop Menu */}
         <ul className='navbar-menu'>
-          <Link to='/' className={menu==="home" ? "active":""} onClick={()=>setMenu("home")}>home</Link>
-          <a href='/#explore-menu' className={menu==="menu" ? "active":""}>menu</a>
-          <a href='/#app-download' className={menu==="mobile-app" ? "active":""}>mobile-app</a>
-          <a href='#footer' className={menu==="contact-us" ? "active":""}>contact us</a>
-          <Link to='/recommend' className={menu==="Food" ? "active":""}>FoodRecommender</Link>
+          <Link to='/' className={menu === "home" ? "active" : ""} onClick={() => setMenu("home")}>Home</Link>
+          <a href='/#explore-menu' className={menu === "menu" ? "active" : ""}>Menu</a>
+          <a href='/#app-download' className={menu === "mobile-app" ? "active" : ""}>Mobile App</a>
+          <a href='#footer' className={menu === "contact-us" ? "active" : ""}>Contact Us</a>
+          <Link to='/recommend' className={menu === "Food" ? "active" : ""}>Food Recommender</Link>
         </ul>
 
         {/* Right Side */}
@@ -68,33 +68,33 @@ const Navbar = ({ SetShowLogin }) => {
             <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
           </div>
 
-            {!token ? (
-  <button onClick={() => SetShowLogin(true)}>sign in</button>
-) : (
-  <div className="navbar-profile">
-    <img
-      src={assets.profile_icon}
-      alt="profile"
-      onClick={() => setProfileOpen(prev => !prev)}
-      style={{ cursor: "pointer" }}
-    />
+          {!token ? (
+            <button onClick={() => SetShowLogin(true)}>sign in</button>
+          ) : (
+            <div className="navbar-profile">
+              <img
+                src={assets.profile_icon}
+                alt="profile"
+                onClick={() => setProfileOpen(prev => !prev)}
+                style={{ cursor: "pointer" }}
+              />
 
-    {profileOpen && (
-      <ul className="nav-profile-dropdown">
-        <li
-          onClick={() => {
-            navigate('/myorders')
-            setProfileOpen(false)
-          }}
-        >
-          Orders
-        </li>
-        <hr />
-        <li onClick={logout}>Logout</li>
-      </ul>
-    )}
-  </div>
-)}
+              {profileOpen && (
+                <ul className="nav-profile-dropdown">
+                  <li
+                    onClick={() => {
+                      navigate('/myorders')
+                      setProfileOpen(false)
+                    }}
+                  >
+                    Orders
+                  </li>
+                  <hr />
+                  <li onClick={logout}>Logout</li>
+                </ul>
+              )}
+            </div>
+          )}
 
 
 
