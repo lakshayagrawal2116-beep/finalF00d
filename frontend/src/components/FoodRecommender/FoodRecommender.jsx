@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
-import axios from "axios";
 import { StoreContext } from "../../context/StoreContext";
+import FoodItem from "../FoodItem/FoodItem";
 import "./FoodRecommender.css";
 import api from "../../api/axios";
 
 const FoodRecommendation = ({ SetShowLogin }) => {
-  const { url, token } = useContext(StoreContext);
+  const { url, token, food_list } = useContext(StoreContext);
 
   // 🔒 Not logged in → show locked UI
   if (!token) {
@@ -28,6 +28,17 @@ const FoodRecommendation = ({ SetShowLogin }) => {
   const [loading, setLoading] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
   const [error, setError] = useState("");
+
+  // 🔍 Find matching menu items for an AI recommendation
+  const findMenuMatches = (aiName) => {
+    const normalized = aiName.toLowerCase().trim();
+    return food_list.filter(item => {
+      const menuName = item.name.toLowerCase().trim();
+      return menuName === normalized
+        || menuName.includes(normalized)
+        || normalized.includes(menuName);
+    });
+  };
 
   const handleRecommend = async () => {
     setLoading(true);
@@ -72,12 +83,7 @@ const FoodRecommendation = ({ SetShowLogin }) => {
 
         <div>
           <label >Category</label>
-          <input style={{height:"2.1rem",marginTop:"6px"}} value={category} onChange={(e) => setCategory(e.target.value)}/>
-            {/* <option value="biryani">Biryani</option>
-            <option value="smoothie">Smoothie</option>
-            <option value="snack">Snack</option>
-            <option value="dessert">Dessert</option> */}
-          
+          <input style={{ height: "2.1rem", marginTop: "6px" }} value={category} onChange={(e) => setCategory(e.target.value)} />
         </div>
 
         <div>
@@ -113,21 +119,51 @@ const FoodRecommendation = ({ SetShowLogin }) => {
 
       {/* RESULTS */}
       <div className="food-rec-results">
-        {recommendations.map((item, idx) => (
-          <div className="food-rec-card" key={idx}>
-            <h3>{item.name}</h3>
+        {recommendations.map((item, idx) => {
+          const menuMatches = findMenuMatches(item.name);
 
-            <div className="food-rec-badges">
-              <span className="badge">{item.category}</span>
-              <span className={`badge ${item.veg_non}`}>
-                {item.veg_non}
-              </span>
-              <span className="badge spice">{item.spice_level}</span>
+          return (
+            <div className="food-rec-card" key={idx}>
+              <h3>{item.name}</h3>
+
+              <div className="food-rec-badges">
+                <span className="badge">{item.category}</span>
+                <span className={`badge ${item.veg_non}`}>
+                  {item.veg_non}
+                </span>
+                <span className="badge spice">{item.spice_level}</span>
+              </div>
+
+              <p className="food-rec-reason">{item.reason}</p>
+
+              {/* 🛒 MENU MATCHES */}
+              {menuMatches.length > 0 && (
+                <div className="menu-match-section">
+                  <div className="menu-match-label">
+                    <span>🛒</span> Available on our menu!
+                  </div>
+                  <div className="menu-match-items">
+                    {menuMatches.map((menuItem) => (
+                      <FoodItem
+                        key={menuItem._id}
+                        id={menuItem._id}
+                        name={menuItem.name}
+                        description={menuItem.description}
+                        price={menuItem.price}
+                        image={menuItem.image}
+                        flashSale={menuItem.flashSale}
+                        discountPercentage={menuItem.discountPercentage}
+                        flashSaleEndsAt={menuItem.flashSaleEndsAt}
+                        flashSaleStartsAt={menuItem.flashSaleStartsAt}
+                        averageRating={menuItem.averageRating}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-
-            <p className="food-rec-reason">{item.reason}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

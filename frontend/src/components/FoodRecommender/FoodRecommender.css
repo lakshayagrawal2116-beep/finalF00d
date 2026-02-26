@@ -147,6 +147,44 @@
     line-height: 1.6;
 }
 
+/* ===== MENU MATCH SECTION ===== */
+.menu-match-section {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px dashed #e5e7eb;
+}
+
+.menu-match-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    color: #166534;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    border: 1px solid #bbf7d0;
+}
+
+.menu-match-label span {
+    font-size: 16px;
+}
+
+.menu-match-items {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.menu-match-items .food-item {
+    min-width: 240px;
+    max-width: 260px;
+    flex-shrink: 0;
+}
+
 .food-rec-locked {
     max-width: 450px;
     margin: 100px auto;

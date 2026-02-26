@@ -54,8 +54,121 @@ a {
   margin: auto;
 }
 
+/* ===== CUSTOM TOAST STYLING ===== */
 .Toastify__toast-container {
   z-index: 30000 !important;
+}
+
+.Toastify__toast {
+  font-family: 'Outfit', sans-serif !important;
+  border-radius: var(--border-radius-md) !important;
+  padding: 14px 18px !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  min-height: auto !important;
+  margin-bottom: 10px !important;
+}
+
+.Toastify__toast-body {
+  font-size: 14.5px !important;
+  font-weight: 500 !important;
+  padding: 0 !important;
+  line-height: 1.4 !important;
+  color: var(--text-primary) !important;
+}
+
+.Toastify__toast-icon {
+  width: 22px !important;
+  margin-right: 12px !important;
+}
+
+.Toastify__close-button {
+  color: var(--text-secondary) !important;
+  opacity: 0.6 !important;
+  transition: opacity 0.2s ease !important;
+  align-self: center !important;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+}
+
+/* Success Toast */
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7) !important;
+  border-left: 4px solid #22c55e !important;
+}
+
+.Toastify__toast--success .Toastify__toast-body {
+  color: #166534 !important;
+}
+
+.Toastify__toast--success .Toastify__progress-bar {
+  background: linear-gradient(90deg, #22c55e, #4ade80) !important;
+}
+
+/* Error Toast */
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
+  border-left: 4px solid var(--primary-color) !important;
+}
+
+.Toastify__toast--error .Toastify__toast-body {
+  color: #991b1b !important;
+}
+
+.Toastify__toast--error .Toastify__progress-bar {
+  background: linear-gradient(90deg, var(--primary-color), #f87171) !important;
+}
+
+/* Warning Toast */
+.Toastify__toast--warning {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+  border-left: 4px solid #f59e0b !important;
+}
+
+.Toastify__toast--warning .Toastify__toast-body {
+  color: #92400e !important;
+}
+
+.Toastify__toast--warning .Toastify__progress-bar {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24) !important;
+}
+
+/* Info Toast */
+.Toastify__toast--info {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe) !important;
+  border-left: 4px solid #3b82f6 !important;
+}
+
+.Toastify__toast--info .Toastify__toast-body {
+  color: #1e40af !important;
+}
+
+.Toastify__toast--info .Toastify__progress-bar {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa) !important;
+}
+
+/* Progress Bar Base */
+.Toastify__progress-bar {
+  height: 3px !important;
+  border-radius: 0 0 var(--border-radius-md) var(--border-radius-md) !important;
+}
+
+
+/* Mobile Toast */
+@media (max-width: 480px) {
+  .Toastify__toast-container {
+    padding: 0 12px !important;
+    width: 100% !important;
+  }
+
+  .Toastify__toast {
+    border-radius: var(--border-radius-sm) !important;
+    margin-bottom: 8px !important;
+  }
 }
 
 /* Base Keyframes */

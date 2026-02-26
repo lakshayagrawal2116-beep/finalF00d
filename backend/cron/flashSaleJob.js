@@ -53,13 +53,36 @@ cron.schedule("0 0 * * *", async () => {
   timezone: TIMEZONE
 });
 
-// Run this check immediately when server starts to catch up if it was offline at 8 PM
+// Reset any expired/stale flash sales (e.g. server slept through midnight)
+const resetStaleSales = async () => {
+  const now = new Date();
+  const result = await foodModel.updateMany(
+    { flashSale: true, flashSaleEndsAt: { $lt: now } },
+    {
+      $set: {
+        flashSale: false,
+        discountPercentage: 0,
+        flashSaleStartsAt: null,
+        flashSaleEndsAt: null,
+        dailySalesCount: 0
+      }
+    }
+  );
+  if (result.modifiedCount > 0) {
+    console.log(`🧹 Cleaned up ${result.modifiedCount} expired flash sale items`);
+  }
+};
+
+// Run this check immediately when server starts to catch up if it was offline
 const checkMissedFlashSale = async () => {
+  // Step 1: Always clean up stale/expired sales first
+  await resetStaleSales();
+
+  // Step 2: If within sale window (8 PM - Midnight IST), activate fresh sales
   const nowStr = new Date().toLocaleString("en-US", { timeZone: TIMEZONE });
   const nowInIST = new Date(nowStr);
   const currentHour = nowInIST.getHours();
 
-  // If local time is between 20:00 (8 PM) and 00:00 (Midnight)
   if (currentHour >= 20 && currentHour <= 23) {
     console.log(`⏰ Server started during Flash Sale window (IST hour: ${currentHour}). Initializing Flash Sale...`);
     await activateFlashSale();
